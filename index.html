@@ -8,6 +8,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
@@ -32,6 +33,7 @@
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
         <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <script src="data/Departements_2016_0.js"></script>
         <script src="data/Selection_sites_38_1.js"></script>
         <script>
@@ -48,7 +50,7 @@
         });
         measureControl.addTo(map);
         var bounds_group = new L.featureGroup([]);
-		//Street
+				//Street
         var basemap0 = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
             maxZoom: 28,
    			subdomains:['mt0','mt1','mt2','mt3']
@@ -180,7 +182,7 @@
         });
         bounds_group.addLayer(layer_Selection_sites_38_1);
         map.addLayer(layer_Selection_sites_38_1);
-       var baseMaps = {'Google Street': basemap0, 'Google Hybrid': basemap1, 'Google Satellite': basemap2};
+        var baseMaps = {'Google Street': basemap0, 'Google Hybrid': basemap1, 'Google Satellite': basemap2};
         L.control.layers(baseMaps,{'<img src="legend/Selection_sites_38_1.png" /> Selection_sites_38': layer_Selection_sites_38_1,'<img src="legend/Departements_2016_0.png" /> Departements_2016': layer_Departements_2016_0,}).addTo(map);
         setBounds();
         var i = 0;
@@ -196,6 +198,11 @@
               addLabel(layer, i);
               i++;
         });
+        map.addControl(new L.Control.Search({
+            layer: layer_Selection_sites_38_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'NOM_COM'}));
         resetLabels([layer_Departements2016_0]);
         map.on("zoomend", function(){
             resetLabels([layer_Departements2016_0]);
